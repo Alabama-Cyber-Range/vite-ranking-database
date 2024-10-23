@@ -16,7 +16,10 @@ function App() {
   const { colorMode, toggleColorMode } = useColorMode();
   const bgColor = useColorModeValue('gray.100', 'gray.800');
   const textColor = useColorModeValue('black', 'white');
-  const boxBgColor = useColorModeValue('gray.100', 'gray.700'); // Adjusting for the boxes
+  const boxBgColor = useColorModeValue('gray.100', 'gray.700');
+  
+  // Force text to be black if unlocked in both light and dark modes for readability
+  const unlockedTextColor = 'black'; 
 
   const progressData = [
     { category: 'Linux Skills', progress: 80 },
@@ -100,15 +103,20 @@ function App() {
             {achievementsDataLeft.map((achievement, index) => (
               <Box 
                 key={index} 
-                bg={achievement.unlocked ? 'green.100' : boxBgColor} // Same as progress boxes
+                bg={achievement.unlocked ? 'green.100' : boxBgColor} // Background for unlocked/locked
                 p={4} 
                 borderRadius="md" 
                 textAlign="center" 
                 boxShadow="md"
               >
-                <Heading size="sm">{achievement.title}</Heading>
-                <Text>{achievement.description}</Text>
-                <Text>{achievement.unlocked ? 'UNLOCKED' : 'LOCKED'}</Text>
+                <Heading 
+                  size="sm" 
+                  color={achievement.unlocked ? unlockedTextColor : textColor} // Invert text color for unlocked
+                >
+                  {achievement.title}
+                </Heading>
+                <Text color={achievement.unlocked ? unlockedTextColor : textColor}>{achievement.description}</Text>
+                <Text color={achievement.unlocked ? unlockedTextColor : textColor}>{achievement.unlocked ? 'UNLOCKED' : 'LOCKED'}</Text>
               </Box>
             ))}
           </Stack>
@@ -124,7 +132,7 @@ function App() {
                 textAlign="center" 
                 boxShadow="md"
               >
-                <Heading size="sm">{achievement.title}</Heading>
+                <Heading size="sm" color={textColor}>{achievement.title}</Heading>
                 <Text>{achievement.description}</Text>
                 <Text>LOCKED</Text>
               </Box>
@@ -136,15 +144,20 @@ function App() {
             {achievementsDataRight.map((achievement, index) => (
               <Box 
                 key={index} 
-                bg={achievement.unlocked ? 'green.100' : boxBgColor} // Same as progress boxes
+                bg={achievement.unlocked ? 'green.100' : boxBgColor} // Background for unlocked/locked
                 p={4} 
                 borderRadius="md" 
                 textAlign="center" 
                 boxShadow="md"
               >
-                <Heading size="sm">{achievement.title}</Heading>
-                <Text>{achievement.description}</Text>
-                <Text>{achievement.unlocked ? 'UNLOCKED' : 'LOCKED'}</Text>
+                <Heading 
+                  size="sm" 
+                  color={achievement.unlocked ? unlockedTextColor : textColor} // Invert text color for unlocked
+                >
+                  {achievement.title}
+                </Heading>
+                <Text color={achievement.unlocked ? unlockedTextColor : textColor}>{achievement.description}</Text>
+                <Text color={achievement.unlocked ? unlockedTextColor : textColor}>{achievement.unlocked ? 'UNLOCKED' : 'LOCKED'}</Text>
               </Box>
             ))}
           </Stack>
@@ -164,7 +177,7 @@ function App() {
               textAlign="center" 
               boxShadow="md"
             >
-              <Heading size="md">{user.name}</Heading>
+              <Heading size="md" color={textColor}>{user.name}</Heading>
               <Text>{user.points} Points</Text>
             </Box>
           ))}
