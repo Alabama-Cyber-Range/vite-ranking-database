@@ -1,7 +1,23 @@
-import React from 'react';
-import { Box, Grid, Heading, Text, Stack, Progress } from '@chakra-ui/react';
+import React, { useState } from 'react';
+import { 
+  Box, 
+  Grid, 
+  Heading, 
+  Text, 
+  Stack, 
+  Progress, 
+  Button, 
+  useColorMode, 
+  useColorModeValue 
+} from '@chakra-ui/react';
+import { SunIcon, MoonIcon } from '@chakra-ui/icons';
 
 function App() {
+  const { colorMode, toggleColorMode } = useColorMode();
+  const bgColor = useColorModeValue('gray.100', 'gray.800');
+  const textColor = useColorModeValue('black', 'white');
+  const boxBgColor = useColorModeValue('gray.100', 'gray.700'); // Adjusting for the boxes
+
   const progressData = [
     { category: 'Linux Skills', progress: 80 },
     { category: 'Kali Top 10', progress: 30 },
@@ -33,8 +49,19 @@ function App() {
     { title: 'Senior Red Team Operator', description: 'Mastered Metasploit Skills', unlocked: false },
   ];
 
+  const leaderboardData = [
+    { name: 'Alice', points: 1200 },
+    { name: 'Brandon', points: 1100 },
+    { name: 'Chase', points: 900 },
+  ];
+
   return (
-    <Box p={4}>
+    <Box p={4} bg={bgColor} color={textColor} minHeight="100vh">
+      {/* Dark Mode Toggle */}
+      <Button onClick={toggleColorMode} mb={6}>
+        {colorMode === 'light' ? <MoonIcon /> : <SunIcon />}
+      </Button>
+
       <Heading mb={6}>Welcome, Brandon</Heading>
 
       {/* Progress Section */}
@@ -44,7 +71,7 @@ function App() {
           {progressData.map((progress, index) => (
             <Box 
               key={index} 
-              bg="gray.100" 
+              bg={boxBgColor} // Same as progress boxes
               p={4} 
               borderRadius="md" 
               textAlign="center" 
@@ -73,7 +100,7 @@ function App() {
             {achievementsDataLeft.map((achievement, index) => (
               <Box 
                 key={index} 
-                bg={achievement.unlocked ? 'green.100' : 'gray.200'} 
+                bg={achievement.unlocked ? 'green.100' : boxBgColor} // Same as progress boxes
                 p={4} 
                 borderRadius="md" 
                 textAlign="center" 
@@ -86,12 +113,12 @@ function App() {
             ))}
           </Stack>
 
-          {/* Middle Column Achievements (greyed out) */}
+          {/* Middle Column Achievements */}
           <Stack spacing={4}>
             {achievementsDataMiddle.map((achievement, index) => (
               <Box 
                 key={index} 
-                bg="gray.200" 
+                bg={boxBgColor} // Same as progress boxes
                 p={4} 
                 borderRadius="md" 
                 textAlign="center" 
@@ -109,7 +136,7 @@ function App() {
             {achievementsDataRight.map((achievement, index) => (
               <Box 
                 key={index} 
-                bg={achievement.unlocked ? 'green.100' : 'gray.200'} 
+                bg={achievement.unlocked ? 'green.100' : boxBgColor} // Same as progress boxes
                 p={4} 
                 borderRadius="md" 
                 textAlign="center" 
@@ -124,10 +151,24 @@ function App() {
         </Grid>
       </Box>
 
-      {/* Notifications Section */}
-      <Box>
-        <Heading as="h2" size="lg" mb={4}>Notifications</Heading>
-        <Text>No new notifications</Text>
+      {/* Leaderboard Section */}
+      <Box mb={6}>
+        <Heading as="h2" size="lg" mb={4}>Leaderboard</Heading>
+        <Grid templateColumns="repeat(1, 1fr)" gap={6}>
+          {leaderboardData.map((user, index) => (
+            <Box 
+              key={index} 
+              bg={boxBgColor} // Same as progress boxes
+              p={4} 
+              borderRadius="md" 
+              textAlign="center" 
+              boxShadow="md"
+            >
+              <Heading size="md">{user.name}</Heading>
+              <Text>{user.points} Points</Text>
+            </Box>
+          ))}
+        </Grid>
       </Box>
     </Box>
   );
